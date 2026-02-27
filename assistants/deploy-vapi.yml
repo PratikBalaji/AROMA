@@ -1,0 +1,19 @@
+name: Deploy to Vapi
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update Vapi Assistant
+        run: |
+          curl --request PATCH \
+            --url https://api.vapi.ai/assistant/63ffd312-f5eb-42fc-8738-8938f0f5376a \
+            --header "Authorization: Bearer ${{ secrets.VAPI_API_KEY }}" \
+            --header "Content-Type: application/json" \
+            --data @assistants/restaurant-assistant.json
